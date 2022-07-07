@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function Loading() {
-  return <div>Loading</div>;
+  return <h1>Please wait for the server to fetch 10 random hackers ...</h1>;
 }
