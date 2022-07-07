@@ -29,6 +29,7 @@ function App() {
       if (counter > HACKER_NUMBER) {
         clearInterval(interval);
         setLoading(false);
+        //Missing update state
         return console.log(hackerList);
       }
 
