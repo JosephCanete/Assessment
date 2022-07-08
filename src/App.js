@@ -5,7 +5,7 @@ import Loading from "./components/Loading";
 import Cards from "./components/Card";
 
 function App() {
-  const [hackerList, setHackerList] = useState([{}]);
+  const [hackerList, setHackerList] = useState([]);
   const [loading, setLoading] = useState(true);
 
   let counter = 1;
@@ -25,23 +25,26 @@ function App() {
       )}.json?print=pretty`;
       const response = await axios.get(baseURL);
       hackerPlaceHolder.push(response.data.by);
+      console.log(response.data.by);
+      console.log(`Fetching hacker ${counter}`);
       counter++;
       if (counter > HACKER_NUMBER) {
         clearInterval(interval);
         setLoading(false);
-        //Missing update state
-        return console.log(hackerList);
+        setHackerList([...hackerList, hackerPlaceHolder]);
+        console.log("Hackers has been fetch sucessfully", hackerList);
       }
-
-      console.log(`${response.data.by} added into hackerList`, hackerList);
-      console.log(response.data);
     } catch (exception) {
       console.error(exception);
     }
   };
 
   const fetchData = () => {
-    interval = setInterval(getRandomHacker, 750);
+    interval = setInterval(getRandomHacker, 1000);
+  };
+
+  const showStateValue = () => {
+    console.log("state value is", hackerList);
   };
 
   useEffect(() => {
@@ -55,6 +58,7 @@ function App() {
       ) : (
         <Cards data={"Fetch is successful, We can now render data"} />
       )}
+      <button onClick={showStateValue}>Click Me</button>
     </>
   );
 }
