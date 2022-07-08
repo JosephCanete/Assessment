@@ -21,6 +21,7 @@ function App() {
       const topStories = await axios.get(topStoriesURL);
       const shrinkedTopStories = topStories.data.slice(0, 100);
       const baseURL = ` https://hacker-news.firebaseio.com/v0/item/${getRandomNumber(
+
         shrinkedTopStories[0],
         shrinkedTopStories[shrinkedTopStories.length - 1]
       )}.json`;
@@ -40,7 +41,11 @@ function App() {
   };
 
   const fetchData = () => {
-    interval = setInterval(getRandomHacker, 750);
+    interval = setInterval(getRandomHacker, 1000);
+  };
+
+  const showStateValue = () => {
+    console.log("state value is", hackerList);
   };
 
   useEffect(() => {
@@ -51,6 +56,7 @@ function App() {
     <div className="container">
       {loading ? <Loading /> : <Home hackerList={hackerList} />}
     </div>
+
   );
 }
 
