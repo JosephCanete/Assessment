@@ -29,7 +29,9 @@ function App() {
       setHackerList((prevValue) => {
         return [...prevValue, { ...data }];
       });
+
       counter++;
+
       if (counter > HACKER_NUMBER) {
         clearInterval(interval);
         return setLoading(false);
@@ -49,7 +51,14 @@ function App() {
 
   return (
     <div className="container">
-      {loading ? <Loading /> : <Home hackerList={hackerList} />}
+      {loading ? (
+        <Loading />
+      ) : (
+        <Home
+          hackerList={hackerList}
+          image={"https://source.unsplash.com/600x400/?computer"}
+        />
+      )}
     </div>
   );
 }
