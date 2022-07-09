@@ -1,11 +1,10 @@
 import React from "react";
 import Card from "../components/Card";
 
-function Home({ hackerList }) {
+function Home({ hackerList, setHackerList }) {
   return (
     <>
-      {console.log(hackerList)}
-      <Card hackerList={hackerList} />
+      <Card hackerList={hackerList} setHackerList={setHackerList} />
     </>
   );
 }
