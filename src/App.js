@@ -12,14 +12,14 @@ function App() {
 
   let counter = 1;
   let interval;
-  const HACKER_NUMBER = 10;
+  const HACKER_NUMBER = 200;
 
   const getRandomHacker = async () => {
     try {
       const topStoriesURL =
         "https://hacker-news.firebaseio.com/v0/topstories.json";
       const topStories = await axios.get(topStoriesURL);
-      const shrinkedTopStories = topStories.data.slice(0, 100);
+      const shrinkedTopStories = topStories.data.slice(0, HACKER_NUMBER);
       const baseURL = ` https://hacker-news.firebaseio.com/v0/item/${getRandomNumber(
 
         shrinkedTopStories[0],
@@ -34,8 +34,8 @@ function App() {
       counter++;
 
       if (counter > HACKER_NUMBER) {
-        clearInterval(interval);
-        return setLoading(false);
+        setLoading(false);
+        return clearInterval(interval);
       }
     } catch (exception) {
       console.error(exception);
@@ -43,11 +43,8 @@ function App() {
   };
 
   const fetchData = () => {
-    interval = setInterval(getRandomHacker, 1000);
-  };
+    interval = setInterval(getRandomHacker, 250);
 
-  const showStateValue = () => {
-    console.log("state value is", hackerList);
   };
 
   useEffect(() => {
@@ -59,10 +56,7 @@ function App() {
       {loading ? (
         <Loading />
       ) : (
-        <Home
-          hackerList={hackerList}
-          image={"https://source.unsplash.com/600x400/?computer"}
-        />
+        <Home hackerList={hackerList} setHackerList={setHackerList} />
       )}
     </div>
 

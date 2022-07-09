@@ -1,6 +1,14 @@
 import "../styles/cards.css";
+import { useEffect } from "react";
 
-export default function Card({ hackerList }) {
+export default function Card({ hackerList, setHackerList }) {
+  useEffect(() => {
+    const filteredHacker = hackerList.filter(
+      (hacker) => hacker.type === "story"
+    );
+    console.log(filteredHacker);
+  }, []);
+
   return (
     <>
       {hackerList.map((hacker, index) => (
@@ -15,7 +23,7 @@ export default function Card({ hackerList }) {
             />
           </div>
           <div className="card__body">
-            <span className="tag tag-blue">{hacker.type.toUpperCase()}</span>
+            <span className="tag tag-blue">{hacker.type}</span>
             <h4>{hacker.title ? hacker.title : hacker.id}</h4>
             <p>
               {hacker.text
