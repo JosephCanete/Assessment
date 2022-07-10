@@ -12,7 +12,7 @@ function App() {
 
   let counter = 1;
   let interval;
-  const HACKER_NUMBER = 100;
+  const HACKER_NUMBER = 50;
 
   const getRandomHacker = async () => {
     try {

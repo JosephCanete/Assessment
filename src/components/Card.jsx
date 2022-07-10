@@ -5,7 +5,6 @@ import axios from "axios";
 
 export default function Card({ hackerList }) {
   const [stories, setStories] = useState([]);
-  const [authorNames, setAuthorNames] = useState([]);
   const [authorData, setAuthorData] = useState([]);
 
   useEffect(() => {
@@ -16,15 +15,25 @@ export default function Card({ hackerList }) {
   useEffect(() => {
     //Callback after setAuthorNames
     stories &&
-      stories.map((story) =>
-        setAuthorNames((prevValue) => [...prevValue, story.by])
-      );
-
-    console.log("authorNames", authorNames);
+      stories.map((story) => {
+        return axios
+          .get(
+            `https://hacker-news.firebaseio.com/v0/user/${story.by}.json?print=pretty`
+          )
+          .then(({ data }) =>
+            setAuthorData((prevValue) => [...prevValue, { ...data }])
+          );
+      });
   }, [stories]);
+
+  const ShowData = () => {
+    console.log("STORIES", stories);
+    console.log("AUTHOR", authorData);
+  };
 
   return (
     <>
+      <button onClick={ShowData}>Click Me</button>
       {/* {stories &&
         stories.map((story, index) => (
           <div className="card" key={story.id}>
