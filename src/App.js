@@ -12,7 +12,7 @@ function App() {
 
   let counter = 1;
   let interval;
-  const HACKER_NUMBER = 200;
+  const HACKER_NUMBER = 100;
 
   const getRandomHacker = async () => {
     try {
@@ -37,6 +37,7 @@ function App() {
         return clearInterval(interval);
       }
     } catch (exception) {
+      console.log("An error occured but still trying to fetch...");
       console.error(exception);
     }
   };

@@ -1,68 +1,73 @@
 import "../styles/cards.css";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
-export default function Card({ hackerList, setHackerList }) {
+export default function Card({ hackerList }) {
+  const [stories, setStories] = useState([]);
+
   useEffect(() => {
-    const filteredHacker = hackerList.filter(
-      (hacker) => hacker.type === "story"
-    );
-    console.log(filteredHacker);
+    const filteredHacker = hackerList.filter((story) => story.type === "story");
+    setStories([...filteredHacker]);
+    console.log("filteredHacker is ", filteredHacker);
+    console.log("hackerList", stories);
   }, []);
 
   return (
     <>
-      {hackerList.map((hacker, index) => (
-        <div className="card" key={hacker.id}>
-          <div className="card__header">
-            <img
-              src={`/assets/${index}.jpg`}
-              alt="card__image"
-              className="card__image"
-              height="400"
-              width="600"
-            />
-          </div>
-          <div className="card__body">
-            <span className="tag tag-blue">{hacker.type}</span>
-            <h4>{hacker.title ? hacker.title : hacker.id}</h4>
-            <p>
-              {hacker.text
-                ? hacker.text.replace(/[^a-zA-Z ]/g, "")
-                : "This section is not applicable"}
-            </p>
-          </div>
-          <div className="card__footer">
-            <div className="user">
+      {stories &&
+        stories.map((story, index) => (
+          <div className="card" key={story.id}>
+            <div className="card__header">
               <img
                 src={`/assets/${index}.jpg`}
-                alt="user__image"
-                className="user__image"
+                alt="card__image"
+                className="card__image"
+                height="400"
+                width="600"
               />
-              <div className="user__info">
-                <div>
-                  <a
-                    className={hacker.url ? "existing " : "not__found"}
-                    href={hacker.url ? hacker.url : "#"}
-                  >
-                    {hacker.by ? hacker.by.toUpperCase() : "Unable to get user"}
-                  </a>
-                </div>
-                <small>
-                  Story Timestamped: <strong>{hacker.time}</strong>
-                </small>
-                <div>
+            </div>
+            <div className="card__body">
+              <span className="tag tag-blue">{story.type}</span>
+              <h4>{story.title ? story.title : story.id}</h4>
+              <p>
+                {story.text
+                  ? story.text.replace(/[^a-zA-Z ]/g, "")
+                  : "This section is not applicable"}
+              </p>
+            </div>
+            <div className="card__footer">
+              <div className="user">
+                <img
+                  src={`/assets/${index}.jpg`}
+                  alt="user__image"
+                  className="user__image"
+                />
+                <div className="user__info">
+                  <div>
+                    <a
+                      className={story.url ? "existing " : "not__found"}
+                      href={story.url ? story.url : "#"}
+                    >
+                      {story.by ? story.by.toUpperCase() : "Unable to get user"}
+                    </a>
+                  </div>
                   <small>
-                    Score:{` `}
-                    <strong className={hacker.score ? "existing" : "not_found"}>
-                      {hacker.score ? hacker.score : "N/A"}
-                    </strong>
+                    Story Timestamped: <strong>{story.time}</strong>
                   </small>
+                  <div>
+                    <small>
+                      Score:{` `}
+                      <strong
+                        className={story.score ? "existing" : "not_found"}
+                      >
+                        {story.score ? story.score : "N/A"}
+                      </strong>
+                    </small>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
     </>
   );
 }
