@@ -6,6 +6,7 @@ import axios from "axios";
 export default function Card({ hackerList }) {
   const [stories, setStories] = useState([]);
   const [authorData, setAuthorData] = useState([]);
+  const [mergedData, setMergedData] = useState([]);
 
   useEffect(() => {
     const filteredHacker = hackerList.filter((story) => story.type === "story");
@@ -29,12 +30,14 @@ export default function Card({ hackerList }) {
   const ShowData = () => {
     console.log("STORIES", stories);
     console.log("AUTHOR", authorData);
+    const merged = { ...stories, ...authorData };
+    console.log(merged);
   };
 
   return (
     <>
       <button onClick={ShowData}>Click Me</button>
-      {/* {stories &&
+      {stories &&
         stories.map((story, index) => (
           <div className="card" key={story.id}>
             <div className="card__header">
@@ -98,7 +101,7 @@ export default function Card({ hackerList }) {
               </div>
             </div>
           </div>
-        ))} */}
+        ))}
     </>
   );
 }
