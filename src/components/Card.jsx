@@ -1,19 +1,31 @@
 import "../styles/cards.css";
 import { useState, useEffect } from "react";
+import { onlyAlphabets } from "../helper/Regex";
+import axios from "axios";
 
 export default function Card({ hackerList }) {
   const [stories, setStories] = useState([]);
+  const [authorNames, setAuthorNames] = useState([]);
+  const [authorData, setAuthorData] = useState([]);
 
   useEffect(() => {
     const filteredHacker = hackerList.filter((story) => story.type === "story");
     setStories([...filteredHacker]);
-    console.log("filteredHacker is ", filteredHacker);
-    console.log("hackerList", stories);
   }, []);
+
+  useEffect(() => {
+    //Callback after setAuthorNames
+    stories &&
+      stories.map((story) =>
+        setAuthorNames((prevValue) => [...prevValue, story.by])
+      );
+
+    console.log("authorNames", authorNames);
+  }, [stories]);
 
   return (
     <>
-      {stories &&
+      {/* {stories &&
         stories.map((story, index) => (
           <div className="card" key={story.id}>
             <div className="card__header">
@@ -30,8 +42,8 @@ export default function Card({ hackerList }) {
               <h4>{story.title ? story.title : story.id}</h4>
               <p>
                 {story.text
-                  ? story.text.replace(/[^a-zA-Z ]/g, "")
-                  : "This section is not applicable"}
+                  ? onlyAlphabets(story.text)
+                  : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."}
               </p>
             </div>
             <div className="card__footer">
@@ -55,11 +67,21 @@ export default function Card({ hackerList }) {
                   </small>
                   <div>
                     <small>
-                      Score:{` `}
+                      Story Score:
                       <strong
                         className={story.score ? "existing" : "not_found"}
                       >
-                        {story.score ? story.score : "N/A"}
+                        {story.score ? ` ${story.score}` : " N/A"}
+                      </strong>
+                    </small>
+                  </div>
+                  <div>
+                    <small>
+                      Author Karma Score:
+                      <strong
+                        className={story.score ? "existing" : "not_found"}
+                      >
+                        {story.score ? ` ${story.score}` : " N/A"}
                       </strong>
                     </small>
                   </div>
@@ -67,7 +89,7 @@ export default function Card({ hackerList }) {
               </div>
             </div>
           </div>
-        ))}
+        ))} */}
     </>
   );
 }
