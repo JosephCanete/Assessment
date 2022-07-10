@@ -18,21 +18,23 @@ function App() {
     try {
       const topStoriesURL =
         "https://hacker-news.firebaseio.com/v0/topstories.json";
-      const topStories = await axios.get(topStoriesURL);
-      const shrinkedTopStories = topStories.data.slice(0, HACKER_NUMBER);
-      const baseURL = ` https://hacker-news.firebaseio.com/v0/item/${getRandomNumber(
+      const fetchTopStories = await axios.get(topStoriesURL);
+      const shrinkedTopStories = fetchTopStories.data.slice(0, HACKER_NUMBER);
+      const fetchStories = ` https://hacker-news.firebaseio.com/v0/item/${getRandomNumber(
         shrinkedTopStories[0],
         shrinkedTopStories[shrinkedTopStories.length - 1]
       )}.json`;
-      const { data } = await axios.get(baseURL);
-      console.log("Data is being fetch, please wait on it");
+      const { data } = await axios.get(fetchStories);
+      console.log(
+        `Data no: ${counter} is being fetch from server, please wait on it...`
+      );
       setHackerList((prevValue) => {
         return [...prevValue, { ...data }];
       });
 
       counter++;
 
-      if (counter > HACKER_NUMBER) {
+      if (counter >= HACKER_NUMBER) {
         setLoading(false);
         return clearInterval(interval);
       }
