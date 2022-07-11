@@ -1,4 +1,4 @@
-import "../styles/cards.css";
+import "../styles/cards.scss";
 import { useState, useEffect } from "react";
 import { onlyAlphabets } from "../helper/Regex";
 import axios from "axios";
@@ -6,7 +6,6 @@ import axios from "axios";
 export default function Card({ hackerList }) {
   const [stories, setStories] = useState([]);
   const [authorData, setAuthorData] = useState([]);
-  const [mergedData, setMergedData] = useState([]);
 
   useEffect(() => {
     const filteredHacker = hackerList.filter((story) => story.type === "story");
@@ -21,25 +20,37 @@ export default function Card({ hackerList }) {
           .get(
             `https://hacker-news.firebaseio.com/v0/user/${story.by}.json?print=pretty`
           )
-          .then(({ data }) =>
-            setAuthorData((prevValue) => [...prevValue, { ...data }])
-          );
+          .then(({ data }) => {
+            setAuthorData((prevValue) => [...prevValue, { ...data }]);
+          });
       });
   }, [stories]);
 
-  const ShowData = () => {
-    console.log("STORIES", stories);
-    console.log("AUTHOR", authorData);
-    const merged = { ...stories, ...authorData };
-    console.log(merged);
-  };
+  useEffect(() => {
+    stories.map((story) => {
+      const author = authorData.find((author) => author.id === story.by);
+      if (author) {
+        story.author = author;
+        story.karma = author.karma;
+      }
+    });
+
+    stories.sort((a, b) => {
+      if (a.karma < b.karma) {
+        return -1;
+      }
+      if (a.karma > b.karma) {
+        return 1;
+      }
+      return 0;
+    });
+  }, [authorData]);
 
   return (
     <>
-      <button onClick={ShowData}>Click Me</button>
       {stories &&
-        stories.map((story, index) => (
-          <div className="card" key={story.id}>
+        stories.slice(0, 10).map((story, index) => (
+          <div className="card" key={index}>
             <div className="card__header">
               <img
                 src={`/assets/${index}.jpg`}
@@ -93,7 +104,7 @@ export default function Card({ hackerList }) {
                       <strong
                         className={story.score ? "existing" : "not_found"}
                       >
-                        {story.score ? ` ${story.score}` : " N/A"}
+                        {story.author ? ` ${story.author.karma}` : " N/A"}
                       </strong>
                     </small>
                   </div>
