@@ -1,3 +1,18 @@
+import "../styles/loader.scss";
+
 export default function Loading() {
-  return <h1>Please wait for the server to fetch 10 random hackers ...</h1>;
+  return (
+    <>
+      <div className="lds-roller">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </>
+  );
 }

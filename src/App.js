@@ -3,16 +3,15 @@ import { useState, useEffect } from "react";
 import { getRandomNumber } from "./helper/RandomId";
 import Loading from "./components/Loading";
 import Home from "./components/Home";
-import "./styles/App.css";
+import "./styles/App.scss";
 
 function App() {
   const [hackerList, setHackerList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [timer, setTimer] = useState(0);
 
   let counter = 1;
   let interval;
-  const HACKER_NUMBER = 50;
+  const HACKER_NUMBER = 200;
 
   const getRandomHacker = async () => {
     try {
