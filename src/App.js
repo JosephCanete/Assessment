@@ -11,7 +11,7 @@ function App() {
 
   let counter = 1;
   let interval;
-  const HACKER_NUMBER = 200;
+  const HACKER_NUMBER = 150;
 
   const getRandomHacker = async () => {
     try {
@@ -44,7 +44,7 @@ function App() {
   };
 
   const fetchData = () => {
-    interval = setInterval(getRandomHacker, 250);
+    interval = setInterval(getRandomHacker, 100);
   };
 
   useEffect(() => {
